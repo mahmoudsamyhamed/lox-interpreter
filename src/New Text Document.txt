@@ -1,0 +1,76 @@
+<command-line> ::= <command-sequence>
+
+<command-sequence> ::= <command> ("|" <command>)*
+
+<command> ::= <command-name> (<arguments>)* (<flags>)* (<redirection>)*
+
+<command-name> ::= <string>
+
+<arguments> ::= argument (<argument>)*
+
+<argument> ::= <string>
+
+<flags> ::= <flag> (<flag>)*
+         
+<flag> ::= <string>
+
+<redirection> ::= <redirect-operator> <file> (<redirect-operator> <file>)*
+
+<redirect-operator> ::= ">"
+                      | ">>"
+                      | "<"
+
+<string> ::= <alphanumeric sequence>
+
+-------------------------------------------------------------------------------------
+				   ([ <redirect> ] [ <pipe> ])
+
+					       ||
+
+<command-line> ::= <command> [ <args> ] [ <operator> ] => commandExpression
+
+<command> ::= <string>
+
+<redirect> ::= '>' <args> | '>>' <args> | '<' <args> => Binary
+
+<args> ::= <arg> [ <arg> ]*
+
+<arg> ::= <option> | <parameter>
+
+<pipe> ::= '|' <command-line> => Binary
+
+-------------------------------------------------------------------------------------
+
+<command-line> ::= <command-sequence>
+
+<command-sequence> ::= <command> 
+                     | <command> <pipe-operator> <command-sequence>
+
+<command> ::= <command-name> <arguments> <flags> <redirection>
+            | <command-name> <arguments> <flags>
+
+<command-name> ::= <string>
+
+<arguments> ::= <argument> 
+              | <argument> <arguments>
+
+<argument> ::= <string>  ; Arguments to the command
+
+<flags> ::= <flag> 
+          | <flag> <flags>
+
+<flag> ::= "-" <char> ; single-character flag, e.g., -a
+        | "--" <string> ; multi-character flag, e.g., --all
+
+<redirection> ::= <redirect-operator> <file>
+                | <redirect-operator> <file> <redirection>
+
+<redirect-operator> ::= ">"
+                      | ">>"
+                      | "<"
+
+<pipe-operator> ::= "|"
+
+<file> ::= <string>
+
+<string> ::= <alphanumeric sequence> ; A sequence of alphanumeric characters
